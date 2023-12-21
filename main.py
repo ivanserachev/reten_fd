@@ -123,5 +123,4 @@ def flow():
     transformed_data = transform_data(data=data)
     learning(learn_data=transformed_data)
 
-
 flow()
