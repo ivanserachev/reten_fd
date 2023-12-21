@@ -1,6 +1,71 @@
 SELECT
-    *
-    EXCLUDE deal_id,
+	AGE ,
+	INCOME ,
+	GENDER ,
+	MARITAL_STATUS ,
+	OKB_RATING ,
+	EMPLOYMENT_TYPE ,
+	DEPENDENTS ,
+	EDUCATION ,
+	WORK_EXPIRIENCE ,
+	SPLIT_PART(EMAIL , '@', 2) AS EMAIL_HOST,
+	NAME,
+	middleName,
+	WORK_PLACE_FEDERAL_DISTRICT ,
+	WORK_PLACE_REGION ,
+	WORK_PLACE_REGION_TYPE_FULL ,
+	WORK_PLACE_CITY ,
+	WORK_PLACE_CITY_TYPE_FULL ,
+	WORK_PLACE_CITY_DISTRICT_WITH_TYPE ,
+	WORK_PLACE_STEAD_TYPE_FULL ,
+	WORK_PLACE_HOUSE_TYPE_FULL ,
+	WORK_PLACE_CAPITAL_MARKER ,
+	WORK_PLACE_FIAS_LEVEL ,
+	WORK_PLACE_TIMEZONE ,
+	WORK_PLACE_EMPLOYEE_COUNT ,
+	WORK_PLACE_OKVED ,
+	WORK_PLACE_OKVED_TYPE ,
+	WORK_PLACE_OKATO ,
+	WORK_PLACE_OKFS ,
+	WORK_PLACE_OKOGU ,
+	WORK_PLACE_OKPO ,
+	WORK_PLACE_OKTMO ,
+	WORK_PLACE_OGRN_DATE ,
+	WORK_PLACE_NAME ,
+	WORK_PLACE_OPF_FULL ,
+	WORK_PLACE_FINANCE_EXPENSE ,
+	WORK_PLACE_FINANCE_INCOME ,
+	WORK_PLACE_FINANCE_PENALTY ,
+	WORK_PLACE_FINANCE_REVENUE ,
+	WORK_PLACE_FINANCE_TAX_SYSTEM ,
+	WORK_PLACE_FINANCE_YEAR ,
+	PASSPORTISSUERCODE ,
+	PASSPORTSERIES ,
+	REGISTRATIONADDRESS_FEDERAL_DISTRICT ,
+	REGISTRATIONADDRESS_REGION ,
+	REGISTRATIONADDRESS_REGION_TYPE_FULL ,
+	REGISTRATIONADDRESS_CITY ,
+	REGISTRATIONADDRESS_CITY_TYPE_FULL ,
+	REGISTRATIONADDRESS_CITY_DISTRICT_WITH_TYPE ,
+	REGISTRATIONADDRESS_STEAD_TYPE_FULL ,
+	REGISTRATIONADDRESS_HOUSE_TYPE_FULL ,
+	REGISTRATIONADDRESS_FIAS_LEVEL ,
+	REGISTRATIONADDRESS_TIMEZONE ,
+	RESIDENTIALADDRESS_FEDERAL_DISTRICT ,
+	RESIDENTIALADDRESS_REGION ,
+	RESIDENTIALADDRESS_REGION_TYPE_FULL ,
+	RESIDENTIALADDRESS_CITY ,
+	RESIDENTIALADDRESS_CITY_TYPE_FULL ,
+	RESIDENTIALADDRESS_CITY_DISTRICT_WITH_TYPE ,
+	RESIDENTIALADDRESS_STEAD_TYPE_FULL ,
+	RESIDENTIALADDRESS_HOUSE_TYPE_FULL ,
+	RESIDENTIALADDRESS_CAPITAL_MARKER ,
+	RESIDENTIALADDRESS_FIAS_LEVEL,
+	RESIDENTIALADDRESS_TIMEZONE ,
+	ASKED_AMOUNT,
+	ASKED_TERM ,
+	APPROVE_AMOUNT ,
+	APPROVE_TERM,
     count(DISTINCT deal_id) AS sales
 FROM
     (
@@ -47,6 +112,8 @@ FROM
               , CLIENT_DATA['email']::VARCHAR                                                               AS EMAIL
               , CONCAT(CLIENT_DATA['lastName']::STRING, ' ', CLIENT_DATA['firstName']::STRING, ' ',
                        CLIENT_DATA['middleName']::STRING)                                                   AS FIO
+              , CLIENT_DATA['firstName']::STRING AS NAME
+              , CLIENT_DATA['middleName']::STRING AS middleName
               , CLIENT_DATA['organizationAddress']['federal_district']::VARCHAR                             AS WORK_PLACE_FEDERAL_DISTRICT
               , CLIENT_DATA['organizationAddress']['region']::VARCHAR                                       AS WORK_PLACE_REGION
               , CLIENT_DATA['organizationAddress']['region_type_full']::VARCHAR                             AS WORK_PLACE_REGION_TYPE_FULL
@@ -90,20 +157,20 @@ FROM
               , CLIENT_DATA['organizationData']['data']['okpo']::VARCHAR                                    AS WORK_PLACE_OKPO
               , CLIENT_DATA['organizationData']['data']['oktmo']::VARCHAR                                   AS WORK_PLACE_OKTMO
               , CLIENT_DATA['organizationData']['data']['ogrn']::VARCHAR                                    AS WORK_PLACE_OGRN
-              , TO_DATE(CLIENT_DATA['organizationData']['data']['ogrn_date']::VARCHAR)                      AS WORK_PLACE_OGRN_DATE
+              , DATEDIFF(YEAR, TO_DATE(CLIENT_DATA['organizationData']['data']['ogrn_date']::VARCHAR), current_date()::DATE)   AS WORK_PLACE_OGRN_DATE
               , CLIENT_DATA['organizationData']['value']::VARCHAR                                           AS WORK_PLACE_NAME
               , CLIENT_DATA['organizationData']['data']['opf']['short']::VARCHAR                            AS WORK_PLACE_OPF
               , CLIENT_DATA['organizationData']['data']['opf']['full']::VARCHAR                             AS WORK_PLACE_OPF_FULL
-              , CLIENT_DATA['organizationData']['data']['finance']['expense']::VARCHAR                      AS WORK_PLACE_FINANCE_EXPENSE
-              , CLIENT_DATA['organizationData']['data']['finance']['income']::VARCHAR                       AS WORK_PLACE_FINANCE_INCOME
-              , CLIENT_DATA['organizationData']['data']['finance']['penalty']::VARCHAR                      AS WORK_PLACE_FINANCE_PENALTY
-              , CLIENT_DATA['organizationData']['data']['finance']['revenue']::VARCHAR                      AS WORK_PLACE_FINANCE_REVENUE
+              , CLIENT_DATA['organizationData']['data']['finance']['expense']::NUMBER                      AS WORK_PLACE_FINANCE_EXPENSE
+              , CLIENT_DATA['organizationData']['data']['finance']['income']::NUMBER                       AS WORK_PLACE_FINANCE_INCOME
+              , CLIENT_DATA['organizationData']['data']['finance']['penalty']::NUMBER                      AS WORK_PLACE_FINANCE_PENALTY
+              , CLIENT_DATA['organizationData']['data']['finance']['revenue']::NUMBER                      AS WORK_PLACE_FINANCE_REVENUE
               , CLIENT_DATA['organizationData']['data']['finance']['tax_system']::VARCHAR                   AS WORK_PLACE_FINANCE_TAX_SYSTEM
               , CLIENT_DATA['organizationData']['data']['finance']['year']::VARCHAR                         AS WORK_PLACE_FINANCE_YEAR
               , CLIENT_DATA['passportIssueDate']::VARCHAR                                                   AS PASSPORTISSUEDATE
               , CLIENT_DATA['passportIssuedBy']::VARCHAR                                                    AS PASSPORTISSUEDBY
               , CLIENT_DATA['passportIssuerCode']::VARCHAR                                                  AS PASSPORTISSUERCODE
-              , CLIENT_DATA['passportSeriesNumber']::VARCHAR                                                AS PASSPORTSERIESNUMBER
+              , LEFT(CLIENT_DATA['passportSeriesNumber']::VARCHAR, 4)                                                AS PASSPORTSERIES
               , CLIENT_DATA['phone']::VARCHAR                                                               AS PHONE
               , CLIENT_DATA['registrationAddress']['federal_district']::VARCHAR                             AS REGISTRATIONADDRESS_FEDERAL_DISTRICT
               , CLIENT_DATA['registrationAddress']['region']::VARCHAR                                       AS REGISTRATIONADDRESS_REGION
