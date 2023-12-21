@@ -109,7 +109,7 @@ def learning(learn_data: LearningData) -> None:
 
     model.fit(
         learn_data['x_train'], learn_data['y_train'],
-        text_features=learn_data['cat_features'],
+        cat_features=learn_data['cat_features'],
         eval_set=(learn_data['x_test'], learn_data['y_test']),
         logging_level='Info',
         plot=True
