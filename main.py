@@ -21,8 +21,9 @@ def execute_data() -> pl.DataFrame:
 
 def transform_data(data: pl.DataFrame) -> LearningData:
     data.fill_null(0)
+    data.fill_nan(0)
     x = data.select(pl.exclude(columns=['SALES']))
-    y = data.select('SALES')\
+    y = data.select('SALES')
 
     with pl.Config(tbl_cols=x.width):
         print(x)
@@ -126,7 +127,7 @@ def learning(learn_data: LearningData) -> None:
 def flow():
     data = execute_data()
     transformed_data = transform_data(data=data)
-    learning(learn_data=transformed_data)
+    # learning(learn_data=transformed_data)
 
 
 flow()
