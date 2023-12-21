@@ -20,8 +20,14 @@ def execute_data() -> pl.DataFrame:
 
 
 def transform_data(data: pl.DataFrame) -> LearningData:
+    data.fill_null(0)
     x = data.select(pl.exclude(columns=['SALES']))
-    y = data.select('SALES')
+    y = data.select('SALES')\
+
+    with pl.Config(tbl_cols=x.width):
+        print(x)
+
+
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random_state=1234)
 
