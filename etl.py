@@ -48,6 +48,5 @@ def read_data_from_local(data_path:str):
         res_data = pl.concat([res_data, data])
 
         os.remove(os.path.join(data_path,file))
-    res_data = res_data.fill_nan(0)
-    res_data = res_data.fill_null(0)
+
     return  res_data
