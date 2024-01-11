@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="@mp55757.west-europe.azure.snowflakecomputing.com" uuid="926fa42b-4592-45ea-9440-385c5020e334">
+      <driver-ref>snowflake</driver-ref>
+      <synchronize>true</synchronize>
+      <remarks>SF DWH</remarks>
+      <jdbc-driver>net.snowflake.client.jdbc.SnowflakeDriver</jdbc-driver>
+      <jdbc-url>jdbc:snowflake://mp55757.west-europe.azure.snowflakecomputing.com:443</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="authenticator" value="externalbrowser" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>
